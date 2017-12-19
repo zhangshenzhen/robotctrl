@@ -22,13 +22,11 @@ import java.util.Date;
  */
 public class RobotApplication extends Application {
     private final static String TAG = "RobotApplication";
-  /*  protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        Debug.startMethodTracing("zhang_san");
-    }*/
+
 
     //获取上下文
     private static Context context;
+
     public static Context getAppContext() {
         return RobotApplication.context;
     }
