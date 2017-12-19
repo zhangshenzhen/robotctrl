@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorBright">#00B0B0</color>
+    <color name="transparent">#00000000</color>
+    <!--xml 背景颜色-->
+    <color name="colorDarkBackground">#11ff00ff</color>
+
+    <color name="black_overlay">#66000000</color>
+    <!--RG2-->
+    <color name="textColorGray">#bababa</color>
+    <drawable name="tabText1" >#ff0000</drawable>
+    <drawable name="tabText2" >#00ff00</drawable>
+    <drawable name="divider" >#3d3b3c</drawable>
+    <color name="transparentBlack">#77000000</color>
+    <color name="transparent1">#AAffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="blackA">#3A3A3A</color>
+    <color name="blackB">#3D3B3C</color>
+    <color name="blackC">#666666</color>
+    <color name="gray">#cccccc</color>
+    <color name="grayA">#999999</color>
+    <color name="grayC">#c7c7c7</color>
+    <color name="red" >#ff0000</color>
+    <color name="hint_edit" >#818181</color>
+    <!-- not used-->
+    <color name="grayB">#bababa</color>
+    <color name="textColorBlack">#3a3a3a</color>
+    <color name="secondTitleColor">#e2e2e2</color>
+
+    <color name="titleRedText">#fdbec6</color>
+    <color name="redA">#f35556</color>
+    <color name="redB">#80E5376b</color>
+    <color name="emoji_bg">#eaeded</color>
+    <color name="item_sign">#4f4665</color>
+    <color name="yellow">#FCDC00</color>
+</resources>

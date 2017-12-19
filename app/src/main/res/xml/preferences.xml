@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keepScreenOn="true" >
+
+    <PreferenceCategory
+        android:summary="服务器地址、端口"
+        android:title="服务器">
+        <EditTextPreference
+            android:defaultValue="222.190.128.98"
+            android:inputType="textAutoCorrect"
+            android:key="@string/serverIp"
+            android:singleLine="true"
+            android:title="@string/serverIpTitle"/>
+        <EditTextPreference
+            android:defaultValue="11028"
+            android:inputType="number"
+            android:key="@string/serverPort"
+            android:singleLine="true"
+            android:title="@string/serverPortTitle"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:summary="配置机器人名称"
+        android:title="机器人">
+        <EditTextPreference
+            android:defaultValue="r00004A"
+            android:inputType="textAutoComplete"
+            android:key="@string/robotName"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/robotNameTitle"/>
+        <ListPreference
+            android:defaultValue="9600"
+            android:entries="@array/ttyBaud"
+            android:entryValues="@array/ttyBaud"
+            android:key="@string/serialBaud"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="OK"
+            android:title="@string/serialBaudTitle"/>
+        <ListPreference
+            android:defaultValue="ttySAC2"
+            android:entries="@array/ttyCOM"
+            android:entryValues="@array/ttyCOM"
+            android:key="@string/serialCOM"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="OK"
+            android:title="@string/serialCOMTitle"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="控制">
+        <Preference
+            android:summary="Open browser and set router"
+            android:title="Set Router"
+            android:id="@+id/preference">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.browser"
+                android:targetClass="com.android.browser.BrowserActivity" />
+        </Preference>
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/lists"
+            android:entryValues="@array/listValues"
+            android:key="@string/list"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="OK"
+            android:title="Sync frequency"/>
+    </PreferenceCategory>
+    <!--<Preference-->
+        <!--android:summary="WiFi configuration"-->
+        <!--android:title="WiFi">-->
+        <!--&lt;!&ndash;NOTE intent调用系统设置&ndash;&gt;-->
+        <!--<intent android:action="com.android.browser.ACTION_START" />-->
+    <!--</Preference>-->
+    <Preference
+        android:summary="Set PCM IP/Port/Machine ID"
+        android:title="Human Service">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetPackage="com.example.pcmaudioplayer"
+            android:targetClass="com.example.pcmaudioplayer.MainActivity" />
+    </Preference>
+    <Preference
+        android:summary="Open Email"
+        android:title="Set Email">
+        <intent
+            android:action="android.intent.action.MAIN"
+            android:targetPackage="com.asus.email"
+            android:targetClass="com.android.email.activity.Welcome" />
+    </Preference>
+    <Preference
+        android:summary="@string/appVersion"
+        android:title="About">
+    </Preference>
+    <Preference
+        android:summary="Developer mode"
+        android:title="Developer"
+        android:key="developerKey"
+        android:enabled="false">
+    </Preference>
+</PreferenceScreen>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lists">
+        <item>1s</item>
+        <item>2s</item>
+        <item>5s</item>
+        <item>10s</item>
+        <item>30s</item>
+        <item>1 minute</item>
+    </string-array>
+    <string-array name="listValues">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </string-array>
+    <string-array name="ttyCOM">
+        <item>ttySAC0</item>
+        <item>ttySAC1</item>
+        <item>ttySAC2</item>
+        <item>ttySAC3</item>
+        <item>ttySAC4</item>
+        <item>ttySAC5</item>
+        <item>ttyS0</item>
+        <item>ttyS1</item>
+        <item>ttyS2</item>
+        <item>ttyS3</item>
+        <item>ttyS4</item>
+        <item>ttyS5</item>
+    </string-array>
+
+    <string-array name="ttyBaud">
+        <item>4800</item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>38400</item>
+        <item>43000</item>
+        <item>56000</item>
+        <item>57600</item>
+        <item>115200</item>
+    </string-array>
+
+    <string-array name="SendBitRate">
+        <item>128</item>
+        <item>256</item>
+        <item>384</item>
+        <item>512</item>
+        <item>768</item>
+        <item>1024</item>
+        <item>-1</item>
+    </string-array>
+
+    <string-array name="VideoCodecType">
+        <item >InnerSoft (H264)</item>
+        <item >InnerSoft (H265)</item>
+        <item >InnerSoft (Callback)</item>
+        <item >Amlogic (Callback)</item>
+        <item >MediaCodec (Callback)</item>
+    </string-array>
+
+    <string-array name="LogLevel">
+        <item>DEBUG</item>
+        <item>INFO</item>
+        <item>WARN</item>
+        <item>ERROR</item>
+        <item>FATAL/SYSTEM</item>
+    </string-array>
+
+    <!--RG2-->
+    <string-array name="education">
+        <item>高中</item>
+        <item>中技</item>
+        <item>中专</item>
+        <item>大专</item>
+        <item>硕士</item>
+        <item>博士/博士后</item>
+        <item>MBA/EMBA</item>
+    </string-array>
+
+    <string-array name="residential_type">
+        <item>普通</item>
+        <item>商用</item>
+    </string-array>
+
+    <string-array name="company_type">
+        <item>机关、事业</item>
+        <item>大型国有股份制</item>
+        <item>外商独资</item>
+        <item>中外合作企业</item>
+        <item>私营、集体</item>
+        <item>个体</item>
+    </string-array>
+
+
+    <string-array name="user_post">
+        <item>机关事业类-厅局级以上</item>
+        <item>机关事业类-处级</item>
+        <item>机关事业类-科级</item>
+        <item>机关事业类-一般员工</item>
+        <item>机关事业类-临时工</item>
+        <item>其他类-企业负责人</item>
+        <item>其他类-高级管理人员</item>
+        <item>其他类-中高级管理人员</item>
+        <item>其他类-初级管理人员</item>
+        <item>其他类-一般人员</item>
+        <item>其他类-专业技术人员</item>
+        <item>其他类-临时工</item>
+    </string-array>
+
+
+    <string-array name="salary">
+        <item>15000元以下</item>
+        <item>15000元-19999元</item>
+        <item>20000元-24999元</item>
+        <item>25000元-29999元</item>
+        <item>30000元-39999元</item>
+        <item>40000元-49999元</item>
+        <item>50000元-79999元</item>
+        <item>80000元以上</item>
+    </string-array>
+
+    <string-array name="work_years">
+        <item>1年以下</item>
+        <item>1年</item>
+        <item>2年</item>
+        <item>3年</item>
+        <item>4年</item>
+        <item>5年</item>
+        <item>6年以上</item>
+    </string-array>
+
+    <string-array name="industry">
+        <item>金融/保险(一般从业人员)</item>
+        <item>金融/保险(销售人员)</item>
+        <item>政府机关</item>
+        <item>旅游/饭店/宾馆/娱乐</item>
+        <item>能源及通信服务</item>
+        <item>公共事业</item>
+        <item>邮政/交通运输/物流业</item>
+        <item>批发/零售/百货业</item>
+        <item>轻工业</item>
+        <item>房地产/基础建设/物管</item>
+        <item>国内贸易公司</item>
+        <item>制造业</item>
+        <item>律师/会计师/咨询/培训</item>
+        <item>进出口贸易</item>
+        <item>IT产业</item>
+        <item>媒体/出版/广告/文艺</item>
+        <item>医疗</item>
+        <item>其他</item>
+    </string-array>
+
+    <string-array name="company_personnel">
+        <item>10人以下</item>
+        <item>10人-49人</item>
+        <item>50人-99人</item>
+        <item>100人-500人</item>
+        <item>500人-999人</item>
+        <item>1000人以上</item>
+    </string-array>
+
+    <string-array name="company_personnels">
+        <item>网购五折任买</item>
+        <item>三倍积分任送</item>
+        <item>高额保险任享</item>
+    </string-array>
+
+
+
+
+    <!-- 声明一个名为statusNames的字符串数组 -->
+    <string-array name="statusNames">
+        <item>设备编号</item>
+        <item>软件版本</item>
+        <item>网络运营商代号</item>
+        <item>网络运营商名称</item>
+        <item>手机制式</item>
+        <item>设备当前位置</item>
+        <item>SIM卡的国别</item>
+        <item>SIM卡序列号</item>
+        <item>SIM卡状态</item>
+    </string-array>
+    <!-- 声明一个名为simState的字符串数组 -->
+    <string-array name="simState">
+        <item>状态未知</item>
+        <item>无SIM卡</item>
+        <item>被PIN加锁</item>
+        <item>被PUK加锁</item>
+        <item>被NetWork PIN加锁</item>
+        <item>已准备好</item>
+    </string-array>
+    <!-- 声明一个名为phoneType的字符串数组 -->
+    <string-array name="phoneType">
+        <item>未知</item>
+        <item>GSM</item>
+        <item>CDMA</item>
+    </string-array>
+
+</resources>

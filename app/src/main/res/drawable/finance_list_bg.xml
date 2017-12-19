@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+      <solid android:color="#fff">
+          <!-- 边缘线条颜色 -->
+          <!-- 描边 -->
+          <stroke
+              android:width="2dp"
+              android:color="@android:color/black"
+              android:dashWidth="1dp"
+               />
+
+         </solid>
+</shape>

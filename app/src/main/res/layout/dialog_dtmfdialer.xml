@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="400dp" >
+
+    <Button
+        android:id="@+id/btnDtmf1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/Dtmf1Value"
+        android:text="@string/Dtmf1Text" />
+
+    <Button
+        android:id="@+id/btnDtmf2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf1"
+        android:layout_alignBottom="@+id/btnDtmf1"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/btnDtmf1"
+        android:hint="@string/Dtmf2Value"
+        android:text="@string/Dtmf2Text" />
+    
+    <Button
+        android:id="@+id/btnDtmf3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf2"
+        android:layout_alignBottom="@+id/btnDtmf2"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/btnDtmf2"
+        android:hint="@string/Dtmf3Value"
+        android:text="@string/Dtmf3Text" />
+    
+    <Button
+        android:id="@+id/btnDtmfA"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf3"
+        android:layout_alignBottom="@+id/btnDtmf3"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/btnDtmf3"
+        android:hint="@string/DtmfAValue"
+        android:text="@string/DtmfAText" />
+
+    <Button
+        android:id="@+id/btnDtmf4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/btnDtmf1"
+        android:layout_below="@+id/btnDtmf1"
+        android:layout_marginTop="20dp"
+        android:hint="@string/Dtmf4Value"
+        android:text="@string/Dtmf4Text" />
+    
+    <Button
+        android:id="@+id/btnDtmf6"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf5"
+        android:layout_alignBottom="@+id/btnDtmf5"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/btnDtmf5"
+        android:hint="@string/Dtmf6Value"
+        android:text="@string/Dtmf6Text" />
+    
+    <Button
+        android:id="@+id/btnDtmfB"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf6"
+        android:layout_alignBottom="@+id/btnDtmf6"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/btnDtmf6"
+        android:hint="@string/DtmfBValue"
+        android:text="@string/DtmfBText" />
+
+    <Button
+        android:id="@+id/btnDtmf5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf4"
+        android:layout_alignBottom="@+id/btnDtmf4"
+        android:layout_toLeftOf="@+id/btnDtmf3"
+        android:hint="@string/Dtmf5Value"
+        android:text="@string/Dtmf5Text" />
+
+    <Button
+        android:id="@+id/btnDtmf7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btnDtmf4"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/btnDtmf2"
+        android:hint="@string/Dtmf7Value"
+        android:text="@string/Dtmf7Text" />
+
+    <Button
+        android:id="@+id/btnDtmf8"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf7"
+        android:layout_alignBottom="@+id/btnDtmf7"
+        android:layout_toLeftOf="@+id/btnDtmf6"
+        android:hint="@string/Dtmf8Value"
+        android:text="@string/Dtmf8Text" />
+
+    <Button
+        android:id="@+id/btnDtmf9"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf8"
+        android:layout_alignBottom="@+id/btnDtmf8"
+        android:layout_toLeftOf="@+id/btnDtmfB"
+        android:hint="@string/Dtmf9Value"
+        android:text="@string/Dtmf9Text" />
+
+    <Button
+        android:id="@+id/btnDtmfC"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf9"
+        android:layout_alignBottom="@+id/btnDtmf9"
+        android:layout_alignLeft="@+id/btnDtmfB"
+        android:hint="@string/DtmfCValue"
+        android:text="@string/DtmfCText" />
+
+    <Button
+        android:id="@+id/btnDtmfXing"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btnDtmf7"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/btnDtmf2"
+        android:hint="@string/DtmfXingValue"
+        android:text="@string/DtmfXingText" />
+
+    <Button
+        android:id="@+id/btnDtmf0"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmfXing"
+        android:layout_alignBottom="@+id/btnDtmfXing"
+        android:layout_toLeftOf="@+id/btnDtmf6"
+        android:hint="@string/Dtmf0Value"
+        android:text="@string/Dtmf0Text" />
+
+    <Button
+        android:id="@+id/btnDtmfJing"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmf0"
+        android:layout_alignBottom="@+id/btnDtmf0"
+        android:layout_alignLeft="@+id/btnDtmf9"
+        android:hint="@string/DtmfJingValue"
+        android:text="@string/DtmfJingText" />
+
+    <Button
+        android:id="@+id/btnDtmfD"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnDtmfJing"
+        android:layout_alignBottom="@+id/btnDtmfJing"
+        android:layout_alignLeft="@+id/btnDtmfC"
+        android:hint="@string/DtmfDValue"
+        android:text="@string/DtmfDText" />
+
+</RelativeLayout>

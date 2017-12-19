@@ -1,0 +1,1201 @@
+Index: app/src/main/java/com/rg2/utils/CityDialog.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/utils/CityDialog.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/utils/CityDialog.java	(revision )
+@@ -22,6 +22,7 @@
+  * 邮箱：wangxianyun1@163.com
+  * 描述：一句话简单描述
+  */
++  //三级联动;
+ public class CityDialog extends BaseCity
+ {
+ 
+Index: app/src/main/java/com/brick/robotctrl/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/MainActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/MainActivity.java	(revision )
+@@ -47,7 +47,7 @@
+ import zime.ui.ZIMEAVDemoActivity;
+ import zime.ui.ZIMEAVDemoService;
+ 
+-public class MainActivity extends BaseActivity  implements View.OnClickListener{
++public class MainActivity extends BaseActivity {
+     private static final String TAG = "MainActivity";
+     SharedPreferences.OnSharedPreferenceChangeListener presChangeListener = null;
+ 
+@@ -207,7 +207,7 @@
+         // relative timer
+         Timer timer = new Timer(true);
+         timer.schedule(queryTask, 200, 200); //改指令执行后延时1000ms后执行run，之后每1000ms执行�?次run
+-        // timer.cancel(); //�?出计时器
++        // timer.cancel(); //结束Timer所有的计时器;
+ 
+         AboutActivity about = new AboutActivity();
+         AboutActivity.MyThread tt = about.new MyThread(ssdbTask.robotName);
+@@ -258,7 +258,7 @@
+         leftEyeButton.setOnClickListener(this);
+         IDButton.setOnClickListener(this);
+     }
+-    //点击事件的
++    //点击事件
+     @Override
+     public void onClick(View view) {
+         switch (view.getId()){
+@@ -271,9 +271,7 @@
+                 startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                 break;
+             case R.id.btn_question:
+-                LogUtil.e("MainActivity", ".........................22");
+                 startActivity(new Intent(MainActivity.this, ManyQueryActivity.class));
+-                LogUtil.e("MainActivity", ".........................22_1");
+                 break;
+             case R.id.ZIMEButton:
+                 Intent intent = new Intent(MainActivity.this, ZIMEAVDemoActivity.class);
+@@ -325,8 +323,8 @@
+         {
+ //            Log.d(TAG, "run: stop: " + ssdbTask.stop);
+             if (!ssdbTask.stop)
+-            {                  // 发起读请�?
+-                ssdbTask.SSDBQuery(SSDBTask.ACTION_HGET);////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!
++            {                  // 发起读请求?
++                ssdbTask.SSDBQuery(SSDBTask.ACTION_HGET);
+             } else {
+                 countForReconnectSSDB++;
+                 if (countForReconnectSSDB % (1000 / 200) == 0)
+@@ -958,17 +956,18 @@
+             }
+         }
+     }
+-
++                //判断是否需要更新的方法;
+     private boolean needUpdate(String archiveFilePath)
+-    {
++    {                       //包管理器;
+         PackageManager pm = getPackageManager();
+         PackageInfo info = pm.getPackageArchiveInfo(archiveFilePath, PackageManager.GET_ACTIVITIES);
+         if (info != null)
+         {
+             try
+             {
++
+                 ApplicationInfo apkInfo = info.applicationInfo;
+-                //                String appName = pm.getApplicationLabel(apkInfo).toString();
++                //   String appName = pm.getApplicationLabel(apkInfo).toString();
+                 String packageName = apkInfo.packageName;   //得到安装包名�?
+                 String versionName = info.versionName;            //得到版本信息
+                 int versionCode = info.versionCode;            //得到版本信息
+@@ -1018,15 +1017,17 @@
+         //            e.printStackTrace();
+         //            return null;
+         //        }
++
++         //获取包管理器;
+         PackageManager pManager = MainActivity.this.getPackageManager();
+-        //获取手机内所有应�?
++         //获取手机内所有应;
+         List<PackageInfo> paklist = pManager.getInstalledPackages(0);
+         for (int i = 0; i < paklist.size(); i++)
+         {
+-            PackageInfo appInfo = paklist.get(i);
++            PackageInfo appInfo = paklist.get(i); //第i+1个包信息;
+             if (appInfo.packageName.equals(packageName))
+             {
+-                Log.d(TAG, "getVersion: " + packageName + " version: " + appInfo.versionName);
++              Log.d(TAG, "getVersion: ~~~~~~~~~~" + packageName + " version:~~~~~~~~~~~~~~~~ " + appInfo.versionName);
+                 return appInfo.versionName;
+             }
+         }
+Index: app/src/main/java/com/kjn/askquestion/AccountInfoTts.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/kjn/askquestion/AccountInfoTts.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/kjn/askquestion/AccountInfoTts.java	(revision )
+@@ -77,7 +77,6 @@
+             e.printStackTrace();
+             isSuccess = false;
+         }
+-
+         return isSuccess;
+     }
+ }
+Index: app/src/main/java/com/rg2/activity/FourActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/FourActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/FourActivity.java	(revision )
+@@ -72,27 +72,6 @@
+             String mContactPhone = mContactPhoneEt.getText().toString();
+ 
+ 
+-//            if (StringUtils.stringIsEmpty(mRelativesName))
+-//            {
+-//                ToastUtil.show(FourActivity.this, "请输入亲属姓名");
+-//                return;
+-//            }
+-//
+-//            if (StringUtils.isMobileNO(mRelativesPhone))
+-//            {
+-//                ToastUtil.show(FourActivity.this, "请输入正确的亲属移动电话");
+-//                return;
+-//            }
+-//            if (StringUtils.stringIsEmpty(mContactName))
+-//            {
+-//                ToastUtil.show(FourActivity.this, "请输入紧急联系人");
+-//                return;
+-//            }
+-//            if (StringUtils.isMobileNO(mContactPhone))
+-//            {
+-//                ToastUtil.show(FourActivity.this, "请输入正确的紧急联系人移动电话");
+-//                return;
+-//            }
+             startActivityForResult(new Intent(this,FiveActivity.class),1);
+         }
+         else if(v == mBackTv)
+Index: app/src/main/java/com/brick/robotctrl/MenuActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/MenuActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/MenuActivity.java	(revision )
+@@ -56,31 +56,26 @@
+         switch (view.getId()){
+             case R.id.textView2:
+                 clearTimerCount();
+-                Log.e("MenuActivity","..............31");
+                 startActivity(new Intent(MenuActivity.this, IDcardActivity.class));
+ 
+                 break;
+             case R.id.textView3:
+                 clearTimerCount();
+                 Log.d(TAG, "onClick: starting ADActivity");
+-                Log.e("MenuActivity","..............32");
+                 startActivity(new Intent(MenuActivity.this, ADActivity.class));
+                 break;
+             case R.id.textView4:
+                 clearTimerCount();
+-                Log.e("MenuActivity","..............33");
+                 startActivity(new Intent(MenuActivity.this, ManyQueryActivity.class));
+ 
+                 break;
+             case R.id.textView5:
+                 clearTimerCount();
+-                Log.e("MenuActivity","..............34");
+                 startActivity(new Intent(MenuActivity.this, QuestTestActivity.class));
+ 
+                 break;
+             case R.id.textView6:
+                 clearTimerCount();
+-                Log.e("MenuActivity","..............35");
+                 startActivity(new Intent(MenuActivity.this, AboutActivity.class));
+                 break;
+             case R.id.reback:
+Index: app/src/main/java/com/brick/robotctrl/AboutActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/AboutActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/AboutActivity.java	(revision )
+@@ -8,6 +8,7 @@
+ import android.os.Handler;
+ import android.os.Message;
+ import android.util.Log;
++import android.view.View;
+ import android.widget.Button;
+ 
+ import com.kjn.ftpabout.FTPAsk;
+@@ -65,8 +66,13 @@
+         t.start();
+     }
+ 
++    @Override
++    public void onClick(View view) {
++
++    }
++
+     public class  MyThread extends Thread{
+-        public FTPAsk ftp = null ;
++        public FTPAsk ftp  ;
+         public String hostName = "218.2.191.50";
+         public String userName = "test1";
+         public String password = "test1";
+@@ -101,6 +107,7 @@
+ //            }
+                 // 打开FTP服务
+                 Log.d(TAG, "onCreate: 开始打开");
++               // openConnect()方法登陆FTP服务器，并获得FTP指定目录下的文件列表remoteFile;
+                 ftp.openConnect();
+                 Log.d(TAG, "onCreate: 123");
+                 File mfile = new File(MLOCAL_PATH);//local movies path
+@@ -124,6 +131,7 @@
+                 if (remoteFile.size() > 0) {
+                     for (int i = 0; i < remoteFile.size(); i++) {
+                         Log.d(TAG, "remoteFile: " + remoteFile.get(i).getName());
++                        //找到音频文件
+                         if (remoteFile.get(i).getName().endsWith(".mp4") || remoteFile.get(i).getName().endsWith(".3gp")
+                                 || remoteFile.get(i).getName().endsWith(".mp3") || remoteFile.get(i).getName().endsWith(".jpg") ) {
+                             isAPK = false;
+@@ -161,14 +169,14 @@
+                     checkFile(afiles, remoteFile);                                      //删除本地APK多余文件
+                 }else{
+                     Log.d(TAG, "暂无更新");
+-                }
+-                ftp.closeConnect();
+-                contextHandler.sendEmptyMessage(SSDBTask.key_ApkUpdate);
+-
++                   //	如果没有更新应用，则跳回MainActivity,否则发送handler事件进行安装
++                ftp.closeConnect();   // 使用closeConnect()方法关闭FTP访问
++               // contextHandler.sendEmptyMessage(SSDBTask.key_ApkUpdate);
+-                // replace finish()?
++                //replace finish()?
+                 Intent intent = new Intent();
+                 intent.setClass(AboutActivity.this, MainActivity.class);
+                 startActivity(intent);
++                }
+             }catch(Exception e){
+                 e.printStackTrace();
+             }
+Index: app/src/main/java/com/brick/robotctrl/QuestTestActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/QuestTestActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/QuestTestActivity.java	(revision )
+@@ -1,14 +1,13 @@
+ package com.brick.robotctrl;
+ 
+-import android.content.Intent;
+ import android.media.MediaPlayer;
+ import android.os.Bundle;
+ import android.os.Environment;
+ import android.os.Handler;
+ import android.os.Message;
+ import android.util.Log;
++import android.view.KeyEvent;
+ import android.view.View;
+-import android.widget.Button;
+ import android.widget.EditText;
+ import android.widget.ListView;
+ import android.widget.TextView;
+@@ -19,7 +18,7 @@
+ import com.google.gson.reflect.TypeToken;
+ import com.kjn.askquestion.AccountInfo;
+ import com.kjn.askquestion.AccountInfoTts;
+-import com.kjn.askquestion.Jason;
++import com.kjn.askquestion.Json;
+ import com.kjn.askquestion.JsonBean;
+ import com.kjn.msgabout.Msg;
+ import com.kjn.msgabout.MsgAdapter;
+@@ -90,6 +89,11 @@
+     private TTSPlayer mTtsPlayer = null;
+     public long lastClickTime;
+ 
++    @Override
++    public void onClick(View view) {
++
++    }
++
+     private static class WeakRefHandler extends Handler {          //可以避免内存泄漏的Handler库
+         private WeakReference<QuestTestActivity> ref = null;
+ 
+@@ -123,6 +127,11 @@
+     private static Handler mUIHandle = null;               //主要接受子线程发送的数据， 并用此数据配合主线程更新UI。
+ 
+     @Override
++    public boolean onKeyDown(int keyCode, KeyEvent event) {
++        return super.onKeyDown(keyCode, event);
++    }
++
++    @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_test_v2);
+@@ -140,7 +149,7 @@
+         mUIHandle = new WeakRefHandler(this);
+ 
+ 
+-        adapter=new MsgAdapter(QuestTestActivity.this,R.layout.msg_item,msgList);
++        adapter= new MsgAdapter(QuestTestActivity.this, R.layout.msg_item,msgList);
+         msgListView=(ListView)findViewById(R.id.msg_list_view);
+         msgListView.setAdapter(adapter);
+ 
+@@ -241,7 +250,7 @@
+         asrConfig.addParam(AsrConfig.VadConfig.PARAM_KEY_VAD_HEAD, "0");
+ //        asrConfig.addParam(AsrConfig.VadConfig.PARAM_KEY_VAD_HEAD, AsrConfig.VadConfig.PARAM_KEY_VAD_SEG );
+ 
+-
++               //点击进入声音监听状态;有语音问题就会被ASR识别
+         gf2.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+@@ -351,12 +360,7 @@
+         }
+ 
+     }
+-    
++
+-    
+-    
+-    
+-
+-
+     private class ASRResultProcess implements ASRRecorderListener {
+         @Override
+         public void onRecorderEventError(RecorderEvent arg0, int arg1) {
+@@ -389,7 +393,7 @@
+                         new Thread() {
+                             @Override
+                             public void run() {
+-                                Jason jts = new Jason();
++                                Json jts = new Json();
+                                 Log.i(TAG, "进入新线程");
+                                 try {
+                                     result = jts.ask(query);                               //把网络访问的代码放在这里
+Index: app/src/main/java/com/rg2/activity/FingerInputActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/FingerInputActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/FingerInputActivity.java	(revision )
+@@ -35,14 +35,13 @@
+                     ToastUtil.show(FingerInputActivity.this, "请输入正确的指纹");
+                     PlayerService.startAction(FingerInputActivity.this, mp3File);
+                     break;
+-            }
++        }
+         }
+     };
+ 
+     @Override
+     protected void initData()
+     {
+-
+     }
+ 
+     @Override
+@@ -76,8 +75,7 @@
+ 
+ 
+ 
+-    public boolean onKeyDown(int keyCode, KeyEvent event)
+-    {
++    public boolean onKeyDown(int keyCode, KeyEvent event) {
+         if ((keyCode == KeyEvent.KEYCODE_BACK))
+         {
+             LogUtil.e("TAG","onKeyDown");
+Index: app/src/main/java/com/brick/robotctrl/SettingsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/SettingsActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/SettingsActivity.java	(revision )
+@@ -122,8 +122,6 @@
+             }
+         };
+ 
+-
+-
+         private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+             @Override
+             public boolean onPreferenceChange(Preference preference, Object value) {
+@@ -150,10 +148,6 @@
+         };
+ 
+         };
+-
+-
+-
+-
+ 
+     // relative ssdb
+     @Override
+Index: app/src/main/java/com/rg2/activity/TwoActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/TwoActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/TwoActivity.java	(revision )
+@@ -69,44 +69,41 @@
+         super.onClick(v);
+         if (v == mSubmitBtn)
+         {
++               //得到编辑的内容;
++            String mResidentialAreaNo = mResidentialAreaNoEt.getText().toString().trim();
++            String mResidentialTel = mResidentialTelEt.getText().toString().trim();
++            String mCompanyAreaNo = mCompanyAreaNoEt.getText().toString().trim();
++            String mCompanyTel = mCompanyTelEt.getText().toString().trim();
++            String mExtension = mExtensionEt.getText().toString().trim();
++            String mPhone = mPhoneEt.getText().toString().trim();
+ 
+-            String mResidentialAreaNo = mResidentialAreaNoEt.getText().toString();
+-            String mResidentialTel = mResidentialTelEt.getText().toString();
+-            String mCompanyAreaNo = mCompanyAreaNoEt.getText().toString();
+-            String mCompanyTel = mCompanyTelEt.getText().toString();
+-            String mExtension = mExtensionEt.getText().toString();
+-            String mPhone = mPhoneEt.getText().toString();
+-
+-
+-//            if (StringUtils.stringIsEmpty(mCompanyAreaNo))
+-//            {
+-//                ToastUtil.show(TwoActivity.this, "请输入公司电话区号");
+-//                return;
+-//            }
+-//
+-//            if (StringUtils.stringIsEmpty(mCompanyTel))
+-//            {
+-//                ToastUtil.show(TwoActivity.this, "请输入公司电话");
+-//                return;
+-//            }
+-//            if (StringUtils.isMobileNO(mPhone))
+-//            {
+-//                ToastUtil.show(TwoActivity.this, "请输入正确手机号码");
+-//                return;
+-//            }
+-
+-            startActivityForResult(new Intent(this,ThreeActivity.class),1);
++         //检验是否输入对应的
++           /* if (StringUtils.stringIsEmpty(mCompanyAreaNo))
++            {
++                ToastUtil.show(TwoActivity.this, "请输入公司电话区号");
++                return;
+-        }
++            }
+-        else if(v == mBackTv)
++            if (StringUtils.stringIsEmpty(mCompanyTel))
+-        {
++            {
++                ToastUtil.show(TwoActivity.this, "请输入公司电话");
++                return;
++            }*/
++           /* if (StringUtils.isMobileNO(mPhone))
++            {
++                ToastUtil.show(TwoActivity.this, "请输入正确手机号码");
++                return;
++            }*/
++            startActivityForResult(new Intent(this,ThreeActivity.class),1);
++           }
++
++            else if(v == mBackTv){
+             finish();
+-        }
++          }
+     }
+ 
+     @Override
+     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+         super.onActivityResult(requestCode, resultCode, data);
+-
+         if(requestCode==1 &&resultCode== Activity.RESULT_OK)
+         {
+             setResult(Activity.RESULT_OK);
+Index: app/src/main/java/com/brick/robotctrl/RobotInfoActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/RobotInfoActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/RobotInfoActivity.java	(revision )
+@@ -47,4 +47,9 @@
+         Log.i(TAG, "onDestroy");
+         super.onDestroy();
+     }
++
++    @Override
++    public void onClick(View view) {
++
++    }
+ }
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/res/layout/activity_main.xml	(revision )
+@@ -22,18 +22,20 @@
+         app:popupTheme="@style/AppTheme.Settings" />
+ 
+     <ImageButton
+-        android:layout_width="200dp"
+-        android:layout_height="202dp"
++
++        android:layout_width="300dp"
++        android:layout_height="100dp"
+         android:id="@+id/leftEyeButton"
+         android:longClickable="true"
+         android:src="@drawable/siri"
+-        android:scaleType="centerCrop"
+-        android:visibility="gone"
++        android:layout_marginTop="60dp"
++       android:layout_alignParentRight="true"
+         android:background="#51cdb5"
+-        android:layout_marginTop="99dp"
+-        android:layout_below="@+id/ZIMEButton"
+-        android:layout_toEndOf="@+id/toolbar" />
++        android:layout_below="@+id/btn_question"
++                        />
+ 
++
++
+     <ImageButton
+         android:layout_width="200dp"
+         android:layout_height="202dp"
+@@ -102,7 +104,7 @@
+     <Button
+         android:layout_width="300dp"
+         android:layout_height="100dp"
+-        android:text="设置"
++        android:text="指纹"
+         android:layout_marginTop="60dp"
+         android:textSize="30dp"
+         android:background="@drawable/common_red_bg_5dp"
+Index: app/src/main/java/com/rg2/activity/ThreeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/ThreeActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/ThreeActivity.java	(revision )
+@@ -34,7 +34,7 @@
+     private EditText mDescAddressEt;//住宅具体门牌号
+     private TextView mResidentialTypeTv;//住宅类型
+     private TextView mResidenceTimeTv;//住宅年限
+-private TextView mBackTv;
++    private TextView mBackTv;
+     private Button mSubmitBtn;
+ 
+     @Override
+@@ -102,7 +102,7 @@
+ //                            ToastUtil.show(ThreeActivity.this, "请输入正确的邮箱");
+ //                            return;
+ //                        }
+-//
++
+ //                        if (StringUtils.stringIsEmpty(mProvince))
+ //                        {
+ //                            ToastUtil.show(ThreeActivity.this, "请输入身份证所在省份");
+@@ -114,7 +114,6 @@
+ //                            ToastUtil.show(ThreeActivity.this, "请输入身份证所在城市");
+ //                            return;
+ //                        }
+-//
+ //                        if (StringUtils.stringIsEmpty(mCardedAddress))
+ //                        {
+ //                            ToastUtil.show(ThreeActivity.this, "请与身份证上地址保持一致");
+@@ -140,7 +139,7 @@
+ //                            ToastUtil.show(ThreeActivity.this, "请选择住宅类型");
+ //                            return;
+ //                        }
+-//
++
+ //                        if (StringUtils.stringIsEmpty(mResidenceTime))
+ //                        {
+ //                            ToastUtil.show(ThreeActivity.this, "请选择住宅年薪");
+@@ -160,6 +159,7 @@
+                 }
+             });
+         }
++        //居住地址;
+         else if (v == mResidentialAddressTv)
+         {
+             CityDialog mCityDialog = new CityDialog();
+Index: app/src/main/java/com/brick/robotctrl/NoQueryActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/NoQueryActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/NoQueryActivity.java	(revision )
+@@ -75,4 +75,9 @@
+         humanButton.setClickable(true);
+         super.onRestart();
+     }
++
++    @Override
++    public void onClick(View view) {
++
++    }
+ }
+Index: app/src/main/java/com/bean/serialport/SerialHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bean/serialport/SerialHelper.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/bean/serialport/SerialHelper.java	(revision )
+@@ -194,7 +194,7 @@
+ 	//----------------------------------------------------
+ 	public boolean isOpen()
+ 	{
+-		return _isOpen;
++		return  _isOpen;
+ 	}
+ 	//----------------------------------------------------
+ 	public byte[] getbLoopData()
+\ No newline at end of file
+Index: app/src/main/java/com/brick/robotctrl/ADActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/ADActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/ADActivity.java	(revision )
+@@ -50,7 +50,7 @@
+         setContentView(R.layout.activity_ad);
+          Intent intent = getIntent();
+         fileName = intent.getStringExtra("fileName");
+-        Log.d(TAG, "onCreate: filename" + fileName);
++      //  Log.d(TAG, "onCreate: filename" + fileName);
+         mode = intent.getStringExtra("mode");
+ 
+         // videoview 实现
+@@ -138,12 +138,6 @@
+         builder.create().show();
+     }
+ 
+-//    @Override
+-//    public boolean onTouch(View v, MotionEvent event){
+-//        Log.d(TAG, "onTouch: to MainActivity");
+-//        startActivity(new Intent().setClass(ADActivity.this, MainActivity.class));
+-//        return true;
+-//    }
+ 
+     public void videoPlay(){
+         videoPath = Environment.getExternalStorageDirectory()
+Index: app/src/main/java/com/kjn/askquestion/Jason.java
+===================================================================
+--- app/src/main/java/com/kjn/askquestion/Jason.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/kjn/askquestion/Json.java	(revision )
+@@ -18,7 +18,7 @@
+  * Created by ${kang} on 2016/6/20.
+  */
+ 
+-public class Jason {
++public class Json {
+     public static String ask(String query) throws HttpException {
+         JSONObject json = new JSONObject();
+         json.put("protocolId", 5);
+Index: app/src/main/java/com/brick/robotctrl/ManyQueryActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/ManyQueryActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/ManyQueryActivity.java	(revision )
+@@ -12,7 +12,7 @@
+ import com.ant.liao.GifView;
+ import com.google.gson.Gson;
+ import com.google.gson.reflect.TypeToken;
+-import com.kjn.askquestion.Jason;
++import com.kjn.askquestion.Json;
+ import com.kjn.askquestion.JsonBean;
+ import com.rg2.utils.LogUtil;
+ 
+@@ -114,7 +114,7 @@
+                     new Thread() {
+                         @Override
+                         public void run() {
+-                            Jason jts = new Jason();
++                            Json jts = new Json();
+                             Log.i(TAG, "进入新线程edit");
+                             try {
+                                 result = jts.ask(num);                               //把网络访问的代码放在这里
+@@ -178,5 +178,12 @@
+         humanButton.setClickable(true);
+         askButton.setClickable(true);
+         super.onRestart();
++    }
++
++
++    //点击事件的方法
++    @Override
++    public void onClick(View view) {
++
+     }
+ }
+Index: app/src/main/java/com/brick/robotctrl/ImageActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/ImageActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/ImageActivity.java	(revision )
+@@ -37,9 +37,10 @@
+     protected void onCreate(Bundle savedInstanceState) {
+         getWindow().setFormat(PixelFormat.TRANSLUCENT);
+         super.onCreate(savedInstanceState);
++
+         setContentView(R.layout.activity_image);
+         Intent intent = getIntent();
+-        fileName = intent.getStringExtra("fileName");
++       fileName = intent.getStringExtra("fileName");
+         Log.d(TAG, "onCreate: filename" + fileName);
+         mode = intent.getStringExtra("mode");
+         imageView = (ImageView)findViewById(R.id.imageView);
+Index: app/src/main/java/com/brick/robotctrl/SpeechService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/SpeechService.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/SpeechService.java	(revision )
+@@ -55,8 +55,6 @@
+     public void onCreate() {
+         super.onCreate();
+ 
+-
+-
+         mAccountInfo = AccountInfoTts.getInstance();
+         boolean loadResult = mAccountInfo.loadAccountInfo(this);
+         if (loadResult) {
+Index: app/src/main/java/com/brick/robotctrl/SSDBTask.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/SSDBTask.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/SSDBTask.java	(revision )
+@@ -32,8 +32,8 @@
+     private Handler contextHandler = null;
+     private Context context = null;
+     private SSDB ssdbClient =null;
+-    //public String serverIp = "60.171.108.192";
+-    public String serverIp = "192.168.0.102";
++    public String serverIp = "60.171.108.192";
++   // public String serverIp = "192.168.0.102";
+     public int serverPort = 11028;
+     public String robotName = "seu";
+     public String robotLocation = "江苏南大电子信息技术股份有限公司";
+@@ -316,7 +316,7 @@
+                     break;
+                 case ACTION_HSET:
+                     try {
+-                      // ssdbClient = new SSDB(serverIp, serverPort);
++                     //  ssdbClient = new SSDB(serverIp, serverPort);
+                        ssdbClient.hset(robotName, cmd.key, cmd.val);
+                     } catch (Exception e) {
+                         e.printStackTrace();
+Index: app/src/main/java/com/brick/robotctrl/SplashActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/SplashActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/SplashActivity.java	(revision )
+@@ -20,15 +20,20 @@
+ 
+     private ImageView imageView;
+ 
+-    @Override
+-    protected void initData() {
+ 
+-    }
+-
+     @Override
+     protected void initViews(Bundle savedInstanceState) {
+         setContentView(R.layout.activity_splash);
++
++    }
++    @Override
++    protected void initData() {
+         imageView = (ImageView) findViewById(R.id.imageView);
++    }
++
++    @Override  //动画
++    protected void initEvent() {
++
+         //动画旋转
+         RotateAnimation animation = new RotateAnimation(0,1080, Animation.RELATIVE_TO_SELF
+                 ,0.5f , Animation.RELATIVE_TO_SELF, 0.5f);
+@@ -49,9 +54,9 @@
+         set.addAnimation(animation);
+         set.addAnimation(scaleAnimation);
+         set.addAnimation(alphaAnimation);
+-         imageView.startAnimation(set);
++        imageView.startAnimation(set);
+ 
+-          //动画的时机的处理事件监听事件;
++        //动画的时机的处理事件监听事件;
+         set.setAnimationListener(new Animation.AnimationListener() {
+             @Override // @Override 动画结束后调用的方法;
+             public void onAnimationEnd(Animation animation) {
+@@ -66,15 +71,9 @@
+ 
+             }
+         });
+-
+     }
+ 
+     @Override
+-    protected void initEvent() {
+-    }
+-
+-    @Override
+     protected void initViewData() {
+-
+     }
+ }
+Index: app/src/main/res/layout/activity_test_v2.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_test_v2.xml	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/res/layout/activity_test_v2.xml	(revision )
+@@ -6,6 +6,7 @@
+               android:weightSum="1"
+     >
+ 
++
+     <LinearLayout
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+@@ -51,6 +52,7 @@
+             android:layout_below="@+id/stateview"
+             android:divider="#00000000">
+         </ListView>
++
+         <com.ant.liao.GifView
+             android:id="@+id/gif2"
+             android:layout_width="wrap_content"
+\ No newline at end of file
+Index: app/src/main/java/com/rg2/activity/PrintActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/PrintActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/PrintActivity.java	(revision )
+@@ -52,7 +52,7 @@
+     @Override
+     protected void initViewData()
+     {
+-        serialCtrlPrinter = new SerialCtrl(PrintActivity.this, new Handler(), "ttyUSB1", 9600, "printer");
++      serialCtrlPrinter = new SerialCtrl(PrintActivity.this, new Handler(), "ttyUSB1", 9600, "printer");
+     }
+ 
+ 
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/AndroidManifest.xml	(revision )
+@@ -61,18 +61,10 @@
+         android:theme="@style/AppTheme"
+         android:largeHeap="true">
+ 
+-      <!--  <activity
+-            android:name=".RobotInfoActivity"
+-            android:label="@string/title_activity_test"
+-            android:launchMode="singleTask"
+-            android:screenOrientation="landscape"
+-            android:theme="@style/AppTheme.FullScreen.NoTitle" />
+--->
+ 
+ 
+-
+-        <activity
++         <activity
+-            android:name=".SplashActivity"
++            android:name="com.rg2.activity.TwoActivity"
+             android:configChanges="orientation|screenSize"
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+@@ -129,7 +121,6 @@
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+             android:theme="@style/AppTheme.FullScreen.NoTitle" />
+-
+         <activity
+             android:name="com.jly.idcard.IDcardActivity"
+             android:configChanges="orientation|screenSize"
+@@ -149,12 +140,14 @@
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+             android:theme="@style/AppTheme.FullScreen.NoTitle" />
++
+         <activity
+             android:name=".ImageActivity"
+             android:label="@string/title_activity_ad"
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+             android:theme="@style/AppTheme.FullScreen.NoTitle" />
++
+         <activity
+             android:name=".ShowSureQueryActivity"
+             android:label="提问"
+@@ -179,6 +172,7 @@
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+             android:theme="@style/AppTheme.FullScreen.NoTitle" />
++
+         <activity
+             android:name=".ManyQueryActivity"
+             android:label="提问"
+@@ -204,11 +198,12 @@
+             android:multiprocess="true" >
+         </activity>
+ 
+-        <activity
++        <!--第二个输入界面-->
++       <!-- <activity
+             android:name="com.rg2.activity.TwoActivity"
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+-            android:theme="@style/AppTheme.FullScreen.NoTitle" />
++            android:theme="@style/AppTheme.FullScreen.NoTitle" />-->
+ 
+         <activity
+             android:name="com.rg2.activity.ThreeActivity"
+@@ -239,7 +234,6 @@
+             android:launchMode="singleTask"
+             android:screenOrientation="landscape"
+             android:theme="@style/AppTheme.FullScreen.NoTitle" />
+-
+         <activity
+             android:name="com.rg2.activity.FingerprintActivity"
+             android:launchMode="singleTask"
+\ No newline at end of file
+Index: app/src/main/java/com/brick/robotctrl/NoAnswerQueryActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/NoAnswerQueryActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/NoAnswerQueryActivity.java	(revision )
+@@ -77,4 +77,9 @@
+         askButton.setClickable(true);
+         super.onRestart();
+     }
++
++    @Override
++    public void onClick(View view) {
++
++    }
+ }
+Index: app/src/main/res/layout/activity_new.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_new.xml	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/res/layout/activity_new.xml	(revision )
+@@ -63,9 +63,9 @@
+             android:layout_height="wrap_content"
+             android:id="@+id/listView"
+             android:layout_below="@+id/askButton"
+-            android:layout_centerHorizontal="true"
++            android:layout_centerHorizontal="true">
++        </ListView>
+ 
+-            />
+     </RelativeLayout>
+ 
+ </LinearLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/rg2/activity/BaseActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/rg2/activity/BaseActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/rg2/activity/BaseActivity.java	(revision )
+@@ -1,6 +1,7 @@
+ package com.rg2.activity;
+ 
+ import android.app.Activity;
++import android.content.Context;
+ import android.os.Bundle;
+ import android.util.Log;
+ import android.view.MotionEvent;
+@@ -11,16 +12,21 @@
+  * 邮箱：wangxianyun1@163.com
+  * 描述：一句话简单描述
+  */
+-public abstract class BaseActivity extends Activity implements View.OnClickListener
+-{
++public abstract class BaseActivity extends Activity implements View.OnClickListener {
++       public Context mContext;
++
++
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState)
+     {
++        mContext = this;
++
+         super.onCreate(savedInstanceState);
+-        initData();
+         initViews(savedInstanceState);
+-        initEvent();
++        initData();
+         initViewData();
++        initEvent();
+     }
+ 
+ 
+Index: app/src/main/java/com/brick/robotctrl/BaseActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/BaseActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/BaseActivity.java	(revision )
+@@ -15,7 +15,7 @@
+ 
+ import java.io.IOException;
+ 
+-public abstract class BaseActivity extends AppCompatActivity {
++public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+     private String TAG = "BaseActivity";
+     //    UserTimer userTimer = null;
+     private static int timerOutCount = 0;
+Index: app/src/main/java/com/brick/robotctrl/OthersActivity.java
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/OthersActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/OthersActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
+@@ -1,33 +0,0 @@
+-package com.brick.robotctrl;
+-
+-
+-import android.os.Bundle;
+-
+-import com.rg2.activity.*;
+-
+-/**
+- * Created by shenzhen on 2017/1/6.
+- */
+-
+-public class OthersActivity extends com.rg2.activity.BaseActivity {
+-
+-    @Override
+-    protected void initData() {
+-
+-    }
+-
+-    @Override
+-    protected void initViews(Bundle savedInstanceState) {
+-        setContentView(R.layout.activity_other);
+-    }
+-
+-    @Override
+-    protected void initEvent() {
+-
+-    }
+-
+-    @Override
+-    protected void initViewData() {
+-
+-    }
+-}
+Index: app/src/main/java/zime/media/ZIMEClientJni.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/zime/media/ZIMEClientJni.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/zime/media/ZIMEClientJni.java	(revision )
+@@ -70,7 +70,7 @@
+ 											   int VoiceRTCPPort);
+ 
+ 	public static  native int GetLocalReceiver(int ChId,  IntParam VoiceRTPPort,
+-											   IntParam VoiceRTCPPort,IntParam VideoRTPPort,IntParam VideoRTCPPort, StrParam LocalAddr, int AddrLen );
++					 IntParam VoiceRTCPPort,IntParam VideoRTPPort,IntParam VideoRTCPPort, StrParam LocalAddr, int AddrLen );
+ 
+ 	public static  native int SetSendDestination(int ChId, int VoiceRTPPort,
+ 												 String DstAddr, int VoiceRTCPPort);
+\ No newline at end of file
+Index: app/src/main/java/com/brick/robotctrl/SerialCtrl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/SerialCtrl.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/SerialCtrl.java	(revision )
+@@ -44,7 +44,7 @@
+ 
+         ComA = new SerialControl();
+         openSerialCOM();
+-//        sendPortData(ComA, "FF10FF10");
++  //    sendPortData(ComA, "FF10FF10");
+     }
+ 
+     public void setSerialCOM(@NonNull String serialCOM) {
+Index: app/src/main/java/com/ant/liao/GifView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/ant/liao/GifView.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/ant/liao/GifView.java	(revision )
+@@ -7,6 +7,7 @@
+ import android.graphics.Bitmap;
+ import android.graphics.BitmapFactory;
+ import android.graphics.Canvas;
++import android.graphics.Color;
+ import android.graphics.Rect;
+ import android.os.Handler;
+ import android.os.Message;
+@@ -72,8 +73,9 @@
+     
+     public GifView(Context context, AttributeSet attrs, int defStyle) {
+         super(context, attrs, defStyle);
++		setBackgroundColor(Color.parseColor("#66FFB6C1"));
+-        
+-    }
++
++	}
+     
+ 
+     private void setGifDecoderImage(byte[] gif){
+Index: app/src/main/res/layout/msg_item.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/msg_item.xml	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/res/layout/msg_item.xml	(revision )
+@@ -3,6 +3,7 @@
+     android:orientation="vertical"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
++    android:background="@color/white"
+     android:padding="10dp">
+ 
+     <LinearLayout
+Index: app/src/main/java/com/brick/robotctrl/ShowSureQueryActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/brick/robotctrl/ShowSureQueryActivity.java	(revision 662ec2c428828edc88baf5d7b79f67b37f251bd5)
++++ app/src/main/java/com/brick/robotctrl/ShowSureQueryActivity.java	(revision )
+@@ -272,6 +272,11 @@
+         }
+     }
+ 
++    @Override
++    public void onClick(View view) {
++
++    }
++
+     // 播放器回调
+     private class TTSEventProcess implements TTSPlayerListener {
+ 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--NOTE 使用 app:showAsAction 而不是 android:showAsAction-->
+    <item
+        android:id="@+id/actionSettings"
+        android:icon="@drawable/ic_action_settings"
+        android:title="@string/settings"
+        app:showAsAction="ifRoom"/>
+    <!--<item-->
+        <!--android:id="@+id/actionSwitchCtrl"-->
+        <!--android:icon="@drawable/ic_action_changectrl_disable"-->
+        <!--android:title="切换控制"-->
+        <!--app:showAsAction="ifRoom"/>-->
+    <group>
+        <item
+            android:icon="@mipmap/ic_launcher"
+            android:title="退出"
+            android:visible="false"/>
+    </group>
+</menu>
