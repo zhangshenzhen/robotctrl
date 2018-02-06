@@ -234,7 +234,7 @@ public class PrintActivity extends BaseActivity{
         String str7 = "理财业务    柜台032             ";
         String str8 = "                                ";
         String str9 = "                                ";
-        sendPortText(str9);
+       sendPortText(str9);
         sendPortText(str9);
         sendPortText(str9);
         sendPortText(str9);

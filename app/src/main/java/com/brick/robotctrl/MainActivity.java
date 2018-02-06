@@ -17,10 +17,12 @@ import android.media.AudioManager;
 import android.media.MediaRouter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
@@ -32,18 +34,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ant.liao.GifView;
+import com.ftp.FtpDownLoad;
 import com.jly.batteryView.BatteryView;
 import com.kjn.videoview.ADVideo;
 import com.presentation.MainPresentation;
+import com.rg2.activity.PrintActivity;
 import com.rg2.activity.ShellUtils;
 import com.rg2.utils.LogUtil;
+import com.rg2.utils.ShellUtil;
 import com.rg2.utils.StringUtils;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -77,6 +86,10 @@ public class MainActivity extends com.brick.robotctrl.BaseActivity{
 
     private IntentFilter          intentFilter;
     private netWorkChangeReceiver netWorkChangeReceiver;
+    public NetworkConnectChangedReceiver mNetworkConnectChangedReceiver;
+    public ETHERNETConnectChangedReceiver mETHERNETConnectChangedReceiver;
+    public boolean isConnected;
+    public boolean iseth0;
     private Button                printButton, mSettingBtn;
 
     private Dialog mNoticeDialog;
@@ -101,6 +114,16 @@ private MainPresentation  mMainPresentation;
     private Button btntest;
     private ProgressDialog pd;
     private GifView gif;
+
+    private shellThread shellthread;
+    private String[] shell = new String[]{
+            "ip ru flush",
+            "ip ru add to 192.168.100.0/24 lookup eth0" ,
+            "ip ru add to 10.0.0.0/8 lookup wlan0",
+            "ip ru add to 132.0.0.0/8 lookup wlan0",
+            "ip ru add to 172.0.0.0/8 lookup wlan0",
+            "ip ru add to 192.0.0.0/8 lookup wlan0",
+            "ip ru add to all lookup eth0"};
 
 
 
@@ -127,13 +150,31 @@ private MainPresentation  mMainPresentation;
         serialCtrl = new SerialCtrl(MainActivity.this, handler, "ttyS3", 9600, "robotctrl");
 
          //打印机              ttyUSB1
-        serialCtrlPrinter = new SerialCtrl(MainActivity.this, handler, "ttyS1", 9600, "printer");
+       // serialCtrlPrinter = new SerialCtrl(MainActivity.this, handler, "ttyS1", 9600, "printer");
         // serialCtrlPrinter.setSerialCOM("/dev/ttyUSB0");
         intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         //创建NetWorkChangeReceiver的实例，并调用registerReceiver()方法进行注册
         netWorkChangeReceiver = new netWorkChangeReceiver();
         registerReceiver(netWorkChangeReceiver, intentFilter);
+
+        //无线网监听
+        mNetworkConnectChangedReceiver = new NetworkConnectChangedReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.NET.conn.CONNECTIVITY_CHANGE");
+        filter.addAction("android.Net.wifi.WIFI_STATE_CHANGED");
+        filter.addAction("android.net.wifi.STATE_CHANGE");
+        registerReceiver(mNetworkConnectChangedReceiver, filter);
+
+        //以太网监听
+        mETHERNETConnectChangedReceiver = new ETHERNETConnectChangedReceiver();
+        IntentFilter filter2 = new IntentFilter();
+        filter2.addAction("android.NET.conn.CONNECTIVITY_CHANGE "); //网络连接消息
+        filter2.addAction("android.net.ethernet.ETHERNET_STATE_CHANGED"); //以太网消息
+        filter2.addAction("android.net.ethernet.STATE_CHANGE");
+        this.registerReceiver(mETHERNETConnectChangedReceiver, filter2);
+
+
         DispQueue = new DispQueueThread();      //获取电压显示线程
        // DispQueue.start();  //暂时关闭此线程,
 
@@ -285,7 +326,7 @@ private MainPresentation  mMainPresentation;
            case R.id.gif:
                Log.i(TAG, "onClick: 点击了界面");
                //暂时不用，先屏蔽掉
-               startActivity(new Intent(MainActivity.this,FunctionSelectActivity.class));
+               startActivity(new Intent(MainActivity.this,PrintActivity.class));
                break;
 
 
@@ -549,20 +590,27 @@ private MainPresentation  mMainPresentation;
                         ssdbTask.SSDBQuery(SSDBTask.ACTION_HSET, SSDBTask.event[SSDBTask.Key_Event], "");
                         Log.d(TAG, "handleMessage: clear Event");
                         Log.d(TAG, "restart: " + "重启机器人" );
-                        Intent iReboot = new Intent(Intent.ACTION_REBOOT);
-                        iReboot.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        MainActivity.this.startActivity(iReboot);
+                        serialCtrl.sendPortData(serialCtrl.ComA,  "55AA7E0001021600970D");
+
+                    }
+                    if (rlt.equals("downLoad"))
+                    {
+                        Log.d(TAG, "handleMessage: ----------10-17------- Key:Event \tvalue:" + rlt);
+                        ssdbTask.SSDBQuery(SSDBTask.ACTION_HSET, SSDBTask.event[SSDBTask.Key_Event], "");
+                        Log.d(TAG, "handleMessage: clear Event");
+                        FtpDownLoad.downLoad("hs31/picture/","/mnt/sdcard/Pictures/");
+                        Log.d(TAG, "downLoad: " + "机器人开始下载。。。。" );
                     }
                     if (rlt.equals("shutdown"))
                     {
-                        Log.d(TAG, "handleMessage: ----------10-17------- Key:Event \tvalue:" + rlt);
+                        Log.d(TAG, "handleMessage: ----------10-18------- Key:Event \tvalue:" + rlt);
                         ssdbTask.SSDBQuery(SSDBTask.ACTION_HSET, SSDBTask.event[SSDBTask.Key_Event], "");
                         Log.d(TAG, "handleMessage: clear Event");
                         MainActivity.super.onShutdown();
                     }
                     if (rlt.equals("message"))
                     {
-                        Log.d(TAG, "handleMessage: ----------10-18------- Key:Event \tvalue:" + rlt);
+                        Log.d(TAG, "handleMessage: ----------10-19------- Key:Event \tvalue:" + rlt);
                         ssdbTask.enableGetMessage = true;
                         ssdbTask.SSDBQuery(SSDBTask.ACTION_HSET, SSDBTask.event[SSDBTask.Key_Event], "");
                         Log.d(TAG, "handleMessage: clear Event");
@@ -1115,7 +1163,7 @@ private MainPresentation  mMainPresentation;
         String str7 = "理财业务    柜台032             ";
         String str8 = "                                ";
         String str9 = "                                ";
-        sendPortText(str9);
+       /* sendPortText(str9);
         sendPortText(str9);
         sendPortText(str9);
         sendPortText(str9);
@@ -1132,11 +1180,10 @@ private MainPresentation  mMainPresentation;
         sendPortText(str0);
         sendPortText(str0);
         sendPortText(str0);
-        sendPortText(str0);
+        sendPortText(str0);*/
     }
 
-    private void sendPortText(String content)
-    {
+    private void sendPortText(String content){
         byte[] temp = null;
         try
         {
@@ -1147,5 +1194,169 @@ private MainPresentation  mMainPresentation;
         }
         serialCtrlPrinter.sendPortText(serialCtrlPrinter.ComA, temp);
     }
+
+    /*无线网络的监听
+   * */
+    class NetworkConnectChangedReceiver extends BroadcastReceiver{
+        public static final  String TAG1 = "TAG1";
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())){
+                Parcelable parcelableExtra = intent
+                        .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                if (null != parcelableExtra)
+                {
+                    NetworkInfo networkInfo = (NetworkInfo) parcelableExtra;
+                    NetworkInfo.State state = networkInfo.getState();
+                    // 当然，这边可以更精确的确定状态
+                    isConnected = state == NetworkInfo.State.CONNECTED;
+                    Log.e(TAG1, "isConnected    " + isConnected);
+                    String ip = getIp2();
+                    if (isConnected && !ip.isEmpty()  )//无线连接 以太不为空
+                    {
+                       /* mRunBtn.setEnabled(true);
+                        mRunBtn.setText("TRUE");*/
+                        Log.e("TAG", "无线网 以太 可用。isConnected。。。");
+                        // APP.getInstance().setWifi(true);
+                        if (shellthread == null){
+                            shellthread = new shellThread();
+                            shellthread.start();
+                        }
+
+                        //注销广播
+                        context.unregisterReceiver(mNetworkConnectChangedReceiver);
+                    }
+                    else
+                    {
+                        // APP.getInstance().setWifi(false);
+                       /* mRunBtn.setEnabled(false);
+                        mRunBtn.setText("false");*/
+                    }
+                }
+            }
+        }
+    }
+    /*以太网监听
+   * */
+    private class ETHERNETConnectChangedReceiver extends BroadcastReceiver {
+        private final String  TAG = "以太网";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            iseth0 = isETHERNET(context);
+
+            String ip = getIp2();
+            Log.e("TAG1以太网 ip。isConnected。。。", " "+ip);
+            Log.e("TAG1", "isConnected   此时以太网  " + iseth0);
+            Log.e("TAG1", "isConnected   此时无线为 " +isConnected );
+            if(isConnected && !ip.isEmpty()  ){
+               /* mRunBtn.setEnabled(true);
+                mRunBtn.setText("TRUE");*/
+                Log.e("TAG1", "以太网 无线 可用。isConnected。。。");
+
+                if (shellthread == null){
+                    shellthread = new shellThread();
+                    shellthread.start();
+                }
+
+                unregisterReceiver(mETHERNETConnectChangedReceiver);
+            }else {
+              /*  mRunBtn.setEnabled(false);
+                mRunBtn.setText("false");*/
+                Log.e("TAG1", "以太网 或无线 不可用。isConnected。。。");
+            }
+
+           /*-------------------------------------------*/
+            ConnectivityManager connectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+
+            Log.e("以太网 无线 可用。isConnected。。。", " "+ip);
+            if (activeNetInfo != null ){
+                int type = activeNetInfo.getType();
+                Log.e("以太网 无线 可用。isConnected。。。", " "+type);
+            }
+        }
+
+
+    }
+
+    /*判断wifi 是否连接
+    * */
+
+    private  static boolean isWifi(Context mContext)
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI)
+        {
+            return true;
+        }
+        return false;
+    }
+    /*判断以太网 是否连接
+      * */
+    private  static boolean isETHERNET(Context mContext)
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_ETHERNET)
+        {
+            return true;
+        }
+        return false;
+    }
+    /*获取以太网的ip
+    * */
+    public String getIp2() {
+        try {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                NetworkInterface intf = en.nextElement();
+                if (intf.getName().toLowerCase().equals("eth0") ) {
+                    for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                        InetAddress inetAddress = enumIpAddr.nextElement();
+                        if (!inetAddress.isLoopbackAddress()) {
+                            String   ipaddress = inetAddress.getHostAddress().toString();
+                            if (!ipaddress.contains("::")) {//ipV6的地址
+                                return ipaddress;
+                            }
+                        }
+
+                    }
+                } else {
+                    continue;
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public class shellThread extends Thread {
+
+        @Override
+        public void run() {
+            ShellUtil.CommandResult r= ShellUtil.execCommand(shell,true,true);
+
+            if(null !=r)
+            {
+                Log.e("TAG", "11111----->" + r.errorMsg);
+                Log.e("TAG", "22222----->" + r.responseMsg);
+                Log.e("TAG", "333333----->" + r.result);
+            }
+            else
+            {
+                Log.e("TAG", "222222222222222222222222222222");
+            }
+
+        }
+    }
+
 
 }

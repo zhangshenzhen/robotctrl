@@ -37,7 +37,7 @@ public class SSDBTask extends TimerTask {
     public int serverPort = 20177;
     // public int serverPort = 8888;
     // public String robotName = "seu";
-    public String robotName = "hs32";
+    public String robotName = "hs123";
     public String robotLocation = "江苏红石信息集成服务有限公司";
     public String videoPlayList = null;
     private final int serverSite = 222;

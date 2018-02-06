@@ -3,33 +3,72 @@
     android:sharedUserId="android.uid.system"
     package="com.brick.robotctrl"  >
 
-    <!-- android:sharedUserId="android.uid.system" -->
-    <!-- <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/> -->/*声音的权限*/<uses-permission android:name="android.permission.INTERNET" />
+    <!-- 添加快捷方式 -->
+    <!--  <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>-->
+    /* 移除快捷方式 */
+    <!--   <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"/>-->
+    /*  查询快捷方式 */
+    <!--  <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>-->
+    <!--  <uses-permission android:name="android.permission.GET_TASKS" />-->
+
+    <!-- 开机启动 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <!--允许一个程序打开窗口使用 显示在其他所有程序的顶层-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!--程序去管理账户-->
+    <!-- <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!--读取设置快捷方式-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
+
+
+    <!-- 软件权限 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+
+    <!-- <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/> -->/*声音的权限*/<uses-permission android:name="android.permission.INTERNET" />
+    <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 格式化sd卡 -->
     <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- GPS权限 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission android:name="android.permission.RECEIVE_HOME" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- <uses-permission android:name="android.permission.SHUTDOWN"/> -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 修改声音设置 -->
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!--安装或卸载文件 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- <uses-permission android:name="android.permission.SHUTDOWN"/> -->
     <!-- <uses-permission android:name="android.permission.INSTALL_PACKAGES" /> -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    /*读取log信息*/
+    <!-- <uses-permission android:name="android.permission.READ_LOGS" />-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-  /*声音的权限*/
+    /*声音的权限*/
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    /*自动适配屏屏幕分辨率的功能 */
      /*自动适配屏屏幕分辨率的功能 */
     <supports-screens
         android:anyDensity="true"
@@ -143,13 +182,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.FullScreen.NoTitle" />
-
         <!-- 卡片业务 -->
-
-
         <!-- 卡片激活 -->
-
-
         <!-- 申请卡片的卡片选择 -->
 
 
